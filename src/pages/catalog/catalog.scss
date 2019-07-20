@@ -20,8 +20,7 @@
   }
 }
 
-input[type=checkbox]
-{
+input[type="checkbox"] {
   transform: scale(1.5);
   padding: 10px;
 }
@@ -38,7 +37,7 @@ select {
 }
 
 .card-img-top {
-  padding:20px;
+  padding: 20px;
 }
 
 .card-body {
@@ -72,4 +71,19 @@ ul {
 
 .modal-dialog {
   max-width: 600px;
+}
+
+.data-not-found {
+  position: absolute;
+  left: 50%;
+  margin-top: 20%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #7e859b;
+  h3 {
+    margin-top: 25px;
+  }
+  p {
+    font-size: 14px;
+  }
 }
