@@ -20,7 +20,7 @@ const Header = ({ searchPhone }) => {
           onSubmit={e => searchHandler(e)}
         >
           <input
-            className="form-control mr-sm-2"
+            className="search form-control mr-sm-2"
             type="search"
             placeholder="Search by phone name"
             aria-label="Search by phone name"
