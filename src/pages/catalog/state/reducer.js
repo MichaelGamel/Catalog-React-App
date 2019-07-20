@@ -129,55 +129,49 @@ export default (state = InitialState, action) => {
 };
 
 const filter = (data, selectedFilters) => {
-  let filteredData = [];
-  let isFiltered = false;
+  let filteredData = data;
 
   // Price
   if (selectedFilters.price.max > 0) {
-    isFiltered = true;
-    filteredData =
-      data.filter(
-        item =>
-          item.release.priceEur >= selectedFilters.price.min &&
-          item.release.priceEur <= selectedFilters.price.max
-      ) || [];
+    filteredData = filteredData.filter(
+      item =>
+        item.release.priceEur >= selectedFilters.price.min &&
+        item.release.priceEur <= selectedFilters.price.max
+    );
   }
 
   // Brand
   if (selectedFilters.brands.length > 0) {
-    filteredData =
-      (isFiltered ? filteredData : data).filter(item =>
-        selectedFilters.brands.includes(item.brand)
-      ) || [];
-    isFiltered = true;
+    filteredData = filteredData.filter(item =>
+      selectedFilters.brands.includes(item.brand)
+    );
   }
 
   // Year
   if (selectedFilters.announceDate.year !== 0) {
-    filteredData =
-      (isFiltered ? filteredData : data).filter(
-        item => selectedFilters.announceDate.year === item.year
-      ) || [];
-    isFiltered = true;
+    filteredData = filteredData.filter(
+      item => selectedFilters.announceDate.year === item.year
+    );
   }
 
   // Month
   if (selectedFilters.announceDate.month !== '') {
-    filteredData =
-      (isFiltered ? filteredData : data).filter(
-        item => selectedFilters.announceDate.month === item.month
-      ) || [];
-    isFiltered = true;
+    filteredData = filteredData.filter(
+      item => selectedFilters.announceDate.month === item.month
+    );
   }
 
   // Search by text
   if (selectedFilters.searchText !== '') {
-    filteredData =
-      (isFiltered ? filteredData : data).filter(
-        item => item.phone.toLowerCase().indexOf(selectedFilters.searchText.toLowerCase()) > -1
-      ) || [];
-    isFiltered = true;
+    filteredData = filteredData.filter(
+      item =>
+        item.phone
+          .toLowerCase()
+          .indexOf(selectedFilters.searchText.toLowerCase()) > -1
+    );
   }
 
-  return isFiltered ? filteredData : data;
+  window.scrollTo(0, 0);
+
+  return filteredData;
 };

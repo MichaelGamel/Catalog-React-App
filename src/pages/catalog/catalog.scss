@@ -42,6 +42,7 @@ select {
 }
 
 .card-body {
+  padding-top: 0;
   padding-bottom: 0;
 }
 
@@ -67,4 +68,8 @@ ul {
 .card {
   padding: 10px;
   height: 100%;
+}
+
+.modal-dialog {
+  max-width: 600px;
 }

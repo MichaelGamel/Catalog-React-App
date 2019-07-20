@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default ({ item }) => {
+export default ({ item, showDetails }) => {
   return (
     <div className="card">
       <img className="card-img-top" src={item.picture} alt="Card cap" />
@@ -11,9 +11,9 @@ export default ({ item }) => {
         <p className="card-title">{item.phone}</p>
       </div>
         <p className="card-price">AED {item.release.priceEur}</p>
-        <a href="/" className="btn btn-primary">
+        <button onClick={() => showDetails(item)} className="btn btn-primary">
           View Details
-        </a>
+        </button>
     </div>
   );
 };
