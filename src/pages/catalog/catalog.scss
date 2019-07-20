@@ -1,0 +1,70 @@
+.catalog {
+  margin: 80px 40px;
+}
+
+.filters {
+  background-color: #f4f4f4;
+  border-radius: 5px;
+  padding: 15px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  position: fixed;
+  width: 370px;
+
+  section {
+    h4 {
+      margin-top: 20px;
+      background-color: #dbdbdb;
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
+  }
+}
+
+input[type=checkbox]
+{
+  transform: scale(1.5);
+  padding: 10px;
+}
+
+select {
+  appearance: none;
+  width: 150px;
+  height: 35px;
+  padding: 5px;
+}
+
+.card-price {
+  padding-inline-start: 20px;
+}
+
+.card-img-top {
+  padding:20px;
+}
+
+.card-body {
+  padding-bottom: 0;
+}
+
+.card-title {
+  font-weight: 600;
+  margin-bottom: 12px;
+  font-size: 1.083333rem;
+  white-space: initial;
+}
+
+small {
+  color: #7e859b;
+  padding-bottom: 2px;
+  font-size: 0.9rem;
+  min-height: 14px;
+}
+
+ul {
+  margin: 0;
+  padding: 0 20px;
+}
+
+.card {
+  padding: 10px;
+  height: 100%;
+}

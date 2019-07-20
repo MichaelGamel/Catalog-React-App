@@ -1,0 +1,22 @@
+/* Main font [300, 400, 500, 600, 700, 800] */
+
+$fonts: ( "300": "UltraLight", "400": "Regular", "500": "Medium", "600": "SemiBold", "700": "Bold", "800": "Heavy");
+@each $w,
+$name in $fonts {
+    @font-face {
+        font-family: "AvenirNext";
+        font-style: normal;
+        font-weight: #{$w};
+        src: url(assets/fonts/AvenirNext-#{$name}.eot);
+        src: url(assets/fonts/AvenirNext-#{$name}.eot?#iefix) format("embedded-opentype"),
+        url(assets/fonts/AvenirNext-#{$name}.woff2) format("woff2"),
+        url(assets/fonts/AvenirNext-#{$name}.woff) format("woff"),
+        url(assets/fonts/AvenirNext-#{$name}.ttf) format("truetype");
+    }
+}
+
+body {
+    font-family: "AvenirNext", sans-serif;
+    font-weight: $f-medium;
+    line-height: 1.7;
+}
