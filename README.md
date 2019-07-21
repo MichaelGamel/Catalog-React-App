@@ -1,6 +1,6 @@
 # Catalog React App
 
-### Live [Demo](https://silly-saha-56acac.netlify.com/)
+### Live <a href="https://silly-saha-56acac.netlify.com/" target="_blank">Demo</a>
 
 ## How to run this app
 
