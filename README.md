@@ -44,5 +44,5 @@
 
 ## Backend APIs
 
-- Only once API return all products [https://api.myjson.com/bins/1f2r2v](https://api.myjson.com/bins/1f2r2v)
+- Only one API return all products [https://api.myjson.com/bins/1f2r2v](https://api.myjson.com/bins/1f2r2v)
 
