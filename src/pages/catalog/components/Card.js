@@ -1,10 +1,14 @@
 import React from 'react';
-import LazyLoad from 'react-lazy-load';
+import LazyLoad from 'react-lazyload';
 
 export default ({ item, showDetails }) => {
   return (
     <div className="card">
-      <LazyLoad debounce={false} offsetVertical={500}>
+      <LazyLoad
+        height={330}
+        onc={true}
+        placeholder={<div className="placeholder" />}
+      >
         <img className="card-img-top" src={item.picture} alt="{item.phone}" />
       </LazyLoad>
       <div className="card-body">

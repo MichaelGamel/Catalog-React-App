@@ -171,7 +171,11 @@ const filter = (data, selectedFilters) => {
     );
   }
 
-  window.scrollTo(0, 0);
+  window.scrollTo({
+    top: 1,
+    left: 0,
+    behavior: 'smooth'
+  });
 
   return filteredData;
 };
