@@ -1,13 +1,21 @@
 import React, { useRef } from 'react';
 import { connect } from 'react-redux';
 import { searchByPhone } from '../../pages/catalog/state/actionCreators';
+import { AnyAction } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
 
-const Header = ({ searchPhone }) => {
-  const inputEl = useRef(null);
+interface IHeaderProps {
+  searchPhone: Function;
+}
 
-  const searchHandler = e => {
+const Header: React.FC<IHeaderProps> = ({ searchPhone }) => {
+  const inputEl = useRef<HTMLInputElement>(null);
+
+  const searchHandler = (e: any) => {
     e.preventDefault();
-    searchPhone(inputEl.current.value);
+    if (inputEl.current) {
+      searchPhone(inputEl.current.value);
+    }
   };
 
   return (
@@ -33,8 +41,8 @@ const Header = ({ searchPhone }) => {
   );
 };
 
-const mapDispatchToProps = dispatch => ({
-  searchPhone: text => {
+const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AnyAction>) => ({
+  searchPhone: (text: string) => {
     dispatch(searchByPhone(text));
   }
 });

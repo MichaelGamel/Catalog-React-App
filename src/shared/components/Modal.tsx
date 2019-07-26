@@ -1,7 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 
-export default ({ isVisable, children, onClose, title }) => {
+interface IModalProps {
+  isVisable: boolean;
+  onClose: Function;
+  title: string;
+}
+
+export const CatalogModal: React.FC<IModalProps> = ({
+  isVisable,
+  onClose,
+  children,
+  title
+}) => {
   const [show, setShow] = useState(false);
 
   useEffect(() => setShow(isVisable), [isVisable]);

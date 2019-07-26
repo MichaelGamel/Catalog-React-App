@@ -1,14 +1,28 @@
 import React, { useEffect } from 'react';
 import Filters from './components/Filters';
-import Content from './components/Content';
+import { Content } from './components/Content';
 import './catalog.scss';
 import { connect } from 'react-redux';
 import { fetchCatalog } from './state/actionCreators';
 import Spinner from '../../shared/components/Spinner';
+import { ICatalog } from '../../shared/interfaces/catalog.interface';
+import { ThunkDispatch } from 'redux-thunk';
+import { AnyAction } from 'redux';
 
-const Catalog = ({ isLoading, catalogData, fetchCatalog }) => {
+interface ICatalogProps {
+  isLoading: boolean;
+  catalogData: Array<ICatalog>;
+  fetchCatalog: Function;
+}
+
+const Catalog: React.FC<ICatalogProps> = ({
+  isLoading,
+  catalogData,
+  fetchCatalog
+}) => {
   useEffect(() => {
     fetchCatalog();
+    // eslint-disable-next-line
   }, []);
 
   const bindContent = isLoading ? <Spinner /> : <Content data={catalogData} />;
@@ -25,13 +39,13 @@ const Catalog = ({ isLoading, catalogData, fetchCatalog }) => {
   );
 };
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AnyAction>) => ({
   fetchCatalog: () => {
     dispatch(fetchCatalog());
   }
 });
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: any) => ({
   catalogData: state.catalog.filteredData,
   isLoading: state.catalog.isLoading
 });

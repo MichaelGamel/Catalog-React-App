@@ -1,22 +1,24 @@
 import {
   FETCH_CATALOG,
   FETCH_CATALOG_SUCCESS,
+  SELECT_PRICE,
+  SELECT_BRAND,
   SELECT_ANNOUNCE_YEAR,
   SELECT_ANNOUNCE_MONTH,
-  SELECT_BRAND,
-  SELECT_PRICE,
   SEARCH_BY_TEXT
 } from './actionTypes';
+import { Dispatch } from 'redux';
+import { IPrice } from '../../../shared/interfaces';
 
 export const fetchCatalog = () => {
-  return async dispatch => {
+  return async (dispatch: Dispatch) => {
     try {
       dispatch({
         type: FETCH_CATALOG
       });
       const res = await fetch('https://api.myjson.com/bins/1f2r2v');
       const data = await res.json();
-      dispatch({
+      return dispatch({
         type: FETCH_CATALOG_SUCCESS,
         payload: data
       });
@@ -24,16 +26,16 @@ export const fetchCatalog = () => {
   };
 };
 
-export const selectPrice = (min, max) => {
-  return dispatch => {
+export const selectPrice = (price: IPrice) => {
+  return (dispatch: Dispatch) => {
     dispatch({
       type: SELECT_PRICE,
-      payload: { min, max }
+      payload: price
     });
   };
 };
-export const selectBrand = (brand) => {
-  return dispatch => {
+export const selectBrand = (brand: string) => {
+  return (dispatch: Dispatch) => {
     dispatch({
       type: SELECT_BRAND,
       payload: brand
@@ -41,8 +43,8 @@ export const selectBrand = (brand) => {
   };
 };
 
-export const selectAnnounceYear = (year) => {
-  return dispatch => {
+export const selectAnnounceYear = (year: number) => {
+  return (dispatch: Dispatch) => {
     dispatch({
       type: SELECT_ANNOUNCE_YEAR,
       payload: year
@@ -50,8 +52,8 @@ export const selectAnnounceYear = (year) => {
   };
 };
 
-export const selectAnnounceMonth = (month) => {
-  return dispatch => {
+export const selectAnnounceMonth = (month: string) => {
+  return (dispatch: Dispatch) => {
     dispatch({
       type: SELECT_ANNOUNCE_MONTH,
       payload: month
@@ -59,8 +61,8 @@ export const selectAnnounceMonth = (month) => {
   };
 };
 
-export const searchByPhone = (text) => {
-  return dispatch => {
+export const searchByPhone = (text: string) => {
+  return (dispatch: Dispatch) => {
     dispatch({
       type: SEARCH_BY_TEXT,
       payload: text

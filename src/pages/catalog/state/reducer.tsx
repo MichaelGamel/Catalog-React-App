@@ -5,14 +5,18 @@ import {
   SELECT_ANNOUNCE_MONTH,
   SELECT_BRAND,
   SELECT_PRICE,
-  SEARCH_BY_TEXT
+  SEARCH_BY_TEXT,
+  CatalogActions
 } from './actionTypes';
+import { IStore, ISelectedFilters, ICatalog } from '../../../shared/interfaces';
+import { Reducer } from 'redux';
 
-const InitialState = {
+const InitialState: IStore = {
   isLoading: false,
   data: [],
   filteredData: [],
   filters: {
+    searchText: '',
     price: {
       min: 0,
       max: 0
@@ -50,15 +54,27 @@ const InitialState = {
   }
 };
 
-export default (state = InitialState, action) => {
+export const catalogReducer: Reducer<IStore, CatalogActions> = (
+  state: IStore = InitialState,
+  action
+): IStore => {
   switch (action.type) {
     case FETCH_CATALOG:
       return { ...state, isLoading: true };
     case FETCH_CATALOG_SUCCESS: {
-      const result = action.payload.map(item => ({
-        ...item,
-        year: +item.release.announceDate.split(' ')[0],
-        month: item.release.announceDate.split(' ')[1] || ''
+      const result = action.payload.map((item: any) => ({
+        id: item.id,
+        brand: item.brand,
+        phone: item.phone,
+        picture: item.picture,
+        announceYear: +item.release.announceDate.split(' ')[0],
+        announceMonth: item.release.announceDate.split(' ')[1] || '',
+        price: item.release.priceEur,
+        sim: item.sim,
+        resolution: item.resolution,
+        audioJack: item.hardware.audioJack,
+        gps: item.hardware.gps,
+        battery: item.hardware.battery
       }));
 
       return {
@@ -128,15 +144,15 @@ export default (state = InitialState, action) => {
   }
 };
 
-const filter = (data, selectedFilters) => {
-  let filteredData = data;
+const filter = (data: Array<ICatalog>, selectedFilters: ISelectedFilters) => {
+  let filteredData: Array<ICatalog> = data;
 
   // Price
   if (selectedFilters.price.max > 0) {
     filteredData = filteredData.filter(
-      item =>
-        item.release.priceEur >= selectedFilters.price.min &&
-        item.release.priceEur <= selectedFilters.price.max
+      (item: ICatalog) =>
+        item.price >= selectedFilters.price.min &&
+        item.price <= selectedFilters.price.max
     );
   }
 
@@ -150,14 +166,14 @@ const filter = (data, selectedFilters) => {
   // Year
   if (selectedFilters.announceDate.year !== 0) {
     filteredData = filteredData.filter(
-      item => selectedFilters.announceDate.year === item.year
+      item => selectedFilters.announceDate.year === item.announceYear
     );
   }
 
   // Month
   if (selectedFilters.announceDate.month !== '') {
     filteredData = filteredData.filter(
-      item => selectedFilters.announceDate.month === item.month
+      item => selectedFilters.announceDate.month === item.announceMonth
     );
   }
 

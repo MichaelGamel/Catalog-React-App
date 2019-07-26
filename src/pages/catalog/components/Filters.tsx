@@ -1,14 +1,25 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import DropDown from '../../../shared/components/DropDown';
+import { DropDown } from '../../../shared/components/DropDown';
 import {
   selectPrice,
   selectBrand,
   selectAnnounceYear,
   selectAnnounceMonth
 } from '../state/actionCreators';
+import { IFilter } from '../../../shared/interfaces';
+import { ThunkDispatch } from 'redux-thunk';
+import { AnyAction } from 'redux';
 
-const Filters = ({
+interface IFiltersProps {
+  filters: IFilter;
+  searchPrice: Function;
+  searchBrand: Function;
+  searchAnnounceYear: Function;
+  searchAnnounceMonth: Function;
+}
+
+const Filters: React.FC<IFiltersProps> = ({
   filters,
   searchPrice,
   searchBrand,
@@ -26,11 +37,13 @@ const Filters = ({
         id={brand}
         onChange={e => searchBrand(brand)}
       />
-      <label className="ml-2" htmlFor={brand}>{brand}</label>
+      <label className="ml-2" htmlFor={brand}>
+        {brand}
+      </label>
     </li>
   ));
 
-  const searchByPriceHandler = e => {
+  const searchByPriceHandler = (e: any) => {
     e.preventDefault();
     searchPrice(min, max);
   };
@@ -74,12 +87,12 @@ const Filters = ({
           <DropDown
             label="Years"
             items={filters.announceDate.years}
-            onSelect={e => searchAnnounceYear(+e)}
+            onSelect={(e: any) => searchAnnounceYear(+e)}
           />
           <DropDown
             label="Months"
             items={filters.announceDate.months}
-            onSelect={e => searchAnnounceMonth(e)}
+            onSelect={(e: any) => searchAnnounceMonth(e)}
           />
         </div>
       </section>
@@ -87,22 +100,22 @@ const Filters = ({
   );
 };
 
-const mapDispatchToProps = dispatch => ({
-  searchAnnounceYear: year => {
+const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AnyAction>) => ({
+  searchAnnounceYear: (year: number) => {
     dispatch(selectAnnounceYear(year));
   },
-  searchAnnounceMonth: month => {
+  searchAnnounceMonth: (month: string) => {
     dispatch(selectAnnounceMonth(month));
   },
-  searchBrand: brand => {
+  searchBrand: (brand: string) => {
     dispatch(selectBrand(brand));
   },
-  searchPrice: (min, max) => {
-    dispatch(selectPrice(min, max));
+  searchPrice: (min: number, max: number) => {
+    dispatch(selectPrice({ min, max }));
   }
 });
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: any) => ({
   filters: state.catalog.filters,
   selectedFilters: state.catalog.selectedFilters
 });
