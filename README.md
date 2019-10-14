@@ -2,6 +2,8 @@
 
 ### Live <a href="https://silly-saha-56acac.netlify.com/" target="_blank">Demo</a>
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/834ab570-e5b6-442f-9c6b-f260d326d2a2/deploy-status)](https://app.netlify.com/sites/silly-saha-56acac/deploys)
+
 ## How to run this app
 
 1. Open your terminal
