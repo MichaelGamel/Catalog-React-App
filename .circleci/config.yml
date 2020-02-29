@@ -13,12 +13,8 @@ jobs:
             - v1-repo-{{ checksum "package.json" }}
 
       - run:
-          name: Install Yarn Globaly
-          command: npm i -g yarn
-
-      - run:
-          name: Install dependencies with YARN
-          command: yarn install # replace with `yarn install` if using yarn
+          name: Install dependencies with NPM
+          command: npm i 
 
       - save_cache: # special step to save the dependency cache
           key: v1-repo-{{ checksum "package.json" }}
@@ -27,8 +23,7 @@ jobs:
 
       - run:
           name: Run build
-          # Runs jest with "--maxWorkers=2" argument to avoid OOM issues
-          command: yran build # replace with `yarn test` if using yarn
+          command: npm run build 
   deploy:
     machine:
       enabled: true
