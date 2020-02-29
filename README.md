@@ -2,6 +2,8 @@
 
 ### Live <a href="https://silly-saha-56acac.netlify.com/" target="_blank">Demo</a>
 
+[![CircleCI](https://circleci.com/gh/MichaelGamel/Catalog-React-App/tree/feature%2Ftypescript-migration.svg?style=svg)](https://circleci.com/gh/MichaelGamel/Catalog-React-App/tree/feature%2Ftypescript-migration)
+
 ## How to run this app
 
 1. Open your terminal
