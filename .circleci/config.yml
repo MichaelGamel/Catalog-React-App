@@ -28,8 +28,6 @@ jobs:
     machine:
       enabled: true
     working_directory: ~/repo
-    docker:
-      - image: circleci/node:12.15.0
     steps:
        - run:
           name: Deploy
