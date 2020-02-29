@@ -31,7 +31,7 @@ jobs:
     steps:
        - run:
           name: Deploy
-          command: 'aws s3 sync . s3://com.michael.morgan --region us-west-2'
+          command: 'aws s3 sync home\ubuntu\Catalog-React-App s3://com.michael.morgan --delete --region us-west-2'
 
 workflows:
   version: 2
