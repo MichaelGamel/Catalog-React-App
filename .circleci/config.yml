@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/repo
     docker:
-      - image: circleci/node:10
+      - image: circleci/node:12.15.0
     steps:
       - checkout # special step to check out source code to working directory
 
@@ -13,8 +13,8 @@ jobs:
             - v1-repo-{{ checksum "package.json" }}
 
       - run:
-          name: Install dependencies with NPM
-          command: npm i 
+          name: Install dependencies with YARN
+          command: yarn install 
 
       - save_cache: # special step to save the dependency cache
           key: v1-repo-{{ checksum "package.json" }}
@@ -23,15 +23,17 @@ jobs:
 
       - run:
           name: Run build
-          command: npm run build 
+          command: yarn build 
   deploy:
     machine:
       enabled: true
     working_directory: ~/repo
+    docker:
+      - image: circleci/node:12.15.0
     steps:
        - run:
           name: Deploy
-          command: 'aws s3 sync ./build s3://com.michael.morgan --region us-west-2'
+          command: 'aws s3 sync . s3://com.michael.morgan --region us-west-2'
 
 workflows:
   version: 2
