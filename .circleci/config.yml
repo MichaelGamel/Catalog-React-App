@@ -31,7 +31,7 @@ jobs:
           command: yarn build
 
       - persist_to_workspace:
-          root: .
+          root: /build
           paths:
               - build
 
@@ -50,7 +50,7 @@ jobs:
 
        - run:
           name: Deploy
-          command: 'aws s3 sync /catalog s3://com.michael.morgan --delete'
+          command: 'aws s3 sync /catalog/build s3://com.michael.morgan --delete'
 
 workflows:
   version: 2
