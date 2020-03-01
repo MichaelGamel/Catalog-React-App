@@ -10,6 +10,10 @@ jobs:
   build:
     executor: circleci-node-image
     steps:
+      - run:
+          name: Grand User Access
+          command: chown -R $USER:$USER /catalog
+        
       - checkout
 
       - restore_cache: # special step to restore the dependency cache
