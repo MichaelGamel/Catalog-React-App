@@ -4,46 +4,42 @@ executors:
   circleci-node-image:
     docker:
       - image: circleci/node:12.15.0
-    working_directory: /catalog
+    working_directory: ./
 
 jobs:
   build:
     executor: circleci-node-image
-    steps:
-      - run:
-          name: Grand User Access
-          command: chown -R $USER:$USER /
-        
+    steps: 
       - checkout
 
-    #   - restore_cache: # special step to restore the dependency cache
-    #       # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
-    #       keys: 
-    #         - v1-repo-{{ checksum "package.json" }}
+      - restore_cache: # special step to restore the dependency cache
+          # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
+          keys: 
+            - v1-repo-{{ checksum "package.json" }}
 
       - run:
           name: Install dependencies with YARN
           command: yarn install 
 
-    #   - save_cache: # special step to save the dependency cache
-    #       key: v1-repo-{{ checksum "package.json" }}
-    #       paths:
-    #         - "node_modules"
+      - save_cache: # special step to save the dependency cache
+          key: v1-repo-{{ checksum "package.json" }}
+          paths:
+            - "node_modules"
 
       - run:
           name: Run build
           command: yarn build
 
       - persist_to_workspace:
-          root: /build
+          root: ./
           paths:
-              - build
+            - build
 
   deploy:
     executor: circleci-node-image
     steps:
        - attach_workspace:
-          at: /catalog
+          at: ./
 
        - run: 
           name: Set AWS configuration - Talabat QA
@@ -54,7 +50,7 @@ jobs:
 
        - run:
           name: Deploy
-          command: 'aws s3 sync /catalog/build s3://com.michael.morgan --delete'
+          command: 'aws s3 sync /build s3://com.michael.morgan --delete'
 
 workflows:
   version: 2
