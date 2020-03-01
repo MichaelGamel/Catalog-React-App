@@ -4,7 +4,7 @@ executors:
   circleci-node-image:
     docker:
       - image: circleci/node:12.15.0
-    working_directory: ./
+    working_directory: /catalog
 
 jobs:
   build:
@@ -39,7 +39,7 @@ jobs:
     executor: circleci-node-image
     steps:
        - attach_workspace:
-          at: ./
+          at: /catalog
 
        - run: 
           name: Set AWS configuration - Talabat QA
@@ -50,7 +50,7 @@ jobs:
 
        - run:
           name: Deploy
-          command: 'aws s3 sync /build s3://com.michael.morgan --delete'
+          command: 'aws s3 sync /catalog/build s3://com.michael.morgan --delete'
 
 workflows:
   version: 2
