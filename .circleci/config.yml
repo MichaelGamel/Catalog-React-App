@@ -2,6 +2,7 @@ version: 2.1
 
 executors:  
   circleci-node-image:
+    machine: true
     docker:
       - image: circleci/node:12.15.0
     working_directory: /catalog
