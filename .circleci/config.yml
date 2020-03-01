@@ -23,23 +23,14 @@ jobs:
 
       - run:
           name: Run build
-          command: yarn build 
+          command: yarn build
 
-      - persist_to_workspace:
-          root: ~/repo
-          paths:
-            - ./
   deploy:
     working_directory: ~/repo
-    docker:
-       - image: circleci/node:12.15.0
     steps:
-       - checkout
-       - attach_workspace:
-           at: ~/repo
        - run:
           name: Deploy
-          command: 'aws s3 sync ~/repo s3://com.michael.morgan --delete --region us-west-2'
+          command: 'aws s3 sync . s3://com.michael.morgan --delete --region us-west-2'
 
 workflows:
   version: 2
