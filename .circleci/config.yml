@@ -22,9 +22,6 @@ jobs:
       - persist_to_workspace:
           root: ./
           paths:
-            - package.json
-            - node_modules
-            - src
             - build
 
   deploy:
