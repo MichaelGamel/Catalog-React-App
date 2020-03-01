@@ -1,66 +1,60 @@
-version: 2.1
-
-executors:  
-  circleci-node-image:
-    machine: true
-    docker:
-      - image: circleci/node:12.15.0
-    working_directory: /catalog
-
+# Javascript Node CircleCI 2.0 configuration file
+version: 2
 jobs:
   build:
-    executor: circleci-node-image
-    steps: 
+    docker:
+      - image: circleci/node:12.15.0
+    steps:
       - checkout
-
-      - restore_cache: # special step to restore the dependency cache
-          # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
-          keys: 
-            - v1-repo-{{ checksum "package.json" }}
-
+      - setup_remote_docker
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
       - run:
-          name: Install dependencies with YARN
-          command: yarn install 
-
-      - save_cache: # special step to save the dependency cache
-          key: v1-repo-{{ checksum "package.json" }}
+          name: Install dependencies
+          command: yarn install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
           paths:
-            - "node_modules"
-
+            - node_modules
       - run:
-          name: Run build
+          name: Build the application
           command: yarn build
-
       - persist_to_workspace:
           root: ./
           paths:
+            - package.json
+            - node_modules
+            - src
             - build
 
-  deploy:
-    executor: circleci-node-image
+  deploy-production:
+    docker:
+      - image: docker:17.05.0-ce-git
     steps:
-       - attach_workspace:
-          at: /catalog
-
-       - run: 
-          name: Set AWS configuration - Talabat QA
+      - setup_remote_docker
+      - attach_workspace:
+          at: ./
+      - run:
+          #Get all pre-requisites
           command: |
-              aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
-              aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
-              aws configure set region $AWS_REGION
-
-       - run:
-          name: Deploy
-          command: 'aws s3 sync /catalog/build s3://com.michael.morgan --delete'
+            apk add --no-cache \
+              py-pip=9.0.0-r1
+            pip install \
+              awscli==1.14.37
+            # Login to ecr and docker login
+            aws_login=`aws ecr get-login --no-include-email`
+            eval $aws_login
+            aws s3 sync build/ s3://com.michael.morgan
 
 workflows:
   version: 2
-  build-deploy:
+  build-test-and-deploy:
     jobs:
       - build
-      - deploy:
+      - deploy-production:
           requires:
             - build
           filters:
             branches:
-              only: feature/typescript-migration # Only deploys when the commit is on the feature/typescript-migration branch
+              only:
+                - feature/typescript-migration
