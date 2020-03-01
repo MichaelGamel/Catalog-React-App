@@ -1,11 +1,16 @@
-version: 2 # use CircleCI 2.0
-jobs:
-  build:
-    working_directory: ~/repo
+version: 2.1
+
+executors:  
+  circleci-node-image:
     docker:
       - image: circleci/node:12.15.0
+    working_directory: /catalog
+
+jobs:
+  build:
+    executor: circleci-node-image
     steps:
-      - checkout # special step to check out source code to working directory
+      - checkout
 
       - restore_cache: # special step to restore the dependency cache
           # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
@@ -25,12 +30,27 @@ jobs:
           name: Run build
           command: yarn build
 
+      - persist_to_workspace:
+          root: .
+          paths:
+              - build
+
   deploy:
-    working_directory: ~/repo
+    executor: circleci-node-image
     steps:
+       - attach_workspace:
+          at: /catalog
+
+       - run: 
+          name: Set AWS configuration - Talabat QA
+          command: |
+              aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+              aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+              aws configure set region $AWS_REGION
+
        - run:
           name: Deploy
-          command: 'aws s3 sync ~/ s3://com.michael.morgan --delete --region us-west-2'
+          command: 'aws s3 sync /catalog s3://com.michael.morgan --delete'
 
 workflows:
   version: 2
