@@ -32,7 +32,13 @@ jobs:
       - attach_workspace:
           at: ./
       - run:
-          command: aws s3 sync build/ s3://com.michael.morgan --delete
+          #Get all pre-requisites
+          command: |
+            apk add --no-cache \
+              py-pip=9.0.0-r1
+            pip install \
+              awscli==1.14.37
+            aws s3 sync build/ s3://com.michael.morgan --delete
 
 workflows:
   version: 2
